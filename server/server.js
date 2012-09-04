@@ -1,4 +1,5 @@
 var http = require('http');
+var io = require('socket.io');
 var url = require('url');
 var fs = require('fs');
 
@@ -27,6 +28,8 @@ var server = http.createServer(function(req, res) {
 
 exports.start = function(port, documentRoot) {
 	server.listen(port);
+	server.socket = io.listen(server);
+	initListenerSocket(server.socket);
 
 	var address = server.address();
 	server.host = address.address;
@@ -34,4 +37,10 @@ exports.start = function(port, documentRoot) {
 	server.documentRoot = documentRoot;
 
 	return server;
+}
+
+var initListenerSocket = function(socket) {
+	socket.on("connection", function(client) {
+		client.send({"message": "接続されました"});
+	})
 }

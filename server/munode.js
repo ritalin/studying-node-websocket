@@ -11,6 +11,7 @@ exports.init = function(wordsFactory, randomFactory) {
 		var n;
 		if (typeof(fn) === "function") {
 			n = fn();
+console.log(n);
 		}
 		else {
 			n = randomNextDefault();
